@@ -36,7 +36,8 @@ const userSchema = new mongoose.Schema({
    },
    skills: {
      type: Array,
-     default: []
+     default: [],
+     required: true
    }, 
    studying: {
      type: String,
