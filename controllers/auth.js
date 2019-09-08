@@ -74,7 +74,7 @@ exports.isAuth = (req, res, next) => {
 
 
 exports.isAdmin = (req, res, next) => {
-  if (req.profile.role === 0) {
+  if (req.profile.role_type === "Work on a project") {
     return res.status(403).json({
       error: "Access Denied - Admin Only."
     });
