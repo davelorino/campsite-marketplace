@@ -10,6 +10,7 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
+const cors = require('cors');
 
 // app
 const app = express();
@@ -23,6 +24,7 @@ mongoose
       .then(() => console.log('DB Connected'));
 
 // middlewares
+app.use(cors());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());

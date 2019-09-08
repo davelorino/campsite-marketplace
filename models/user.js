@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const uuidv1 = require('uuid/v1');
 
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -16,6 +17,9 @@ const userSchema = new mongoose.Schema({
     trim: true,
     required: true,
     unique: 32
+  },
+  business_name: {
+    type: String
   },
   hashed_password: {
     type: String,
@@ -30,18 +34,19 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  role_type: {
+    type: String
+  },
   history: {
    type: Array,
    default: []
    },
    skills: {
      type: Array,
-     default: [],
-     required: true
+     default: []
    }, 
    studying: {
-     type: String,
-     required: true
+     type: String
    }
 }, {timestamps: true});
 
@@ -56,6 +61,8 @@ userSchema.virtual('password')
 .get(function() {
   return this._password;
 });
+
+
 
 userSchema.methods = {
   authenticate: function(plainText) {
@@ -74,6 +81,8 @@ userSchema.methods = {
     }
   }
 };
+
+
 
 module.exports = mongoose.model("User", userSchema);
 
