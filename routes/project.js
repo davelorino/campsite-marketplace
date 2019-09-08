@@ -17,7 +17,7 @@ const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 
 router.get('/project/:projectId', read);
 router.post("/project/create/:userId", requireSignin, isAuth, isAdmin, create);
-router.delete('/project/:productId/:userId', requireSignin, isAuth, isAdmin, remove);
+router.delete('/project/:project/:userId', requireSignin, isAuth, isAdmin, remove);
 router.put('/project/:projectId/:userId', requireSignin, isAuth, isAdmin, update);
 router.get('/projects', list);
 router.get("/projects/related/:projectId", listRelated);

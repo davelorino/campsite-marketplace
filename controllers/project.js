@@ -45,8 +45,8 @@ exports.create = (req, res) => {
       });
     }
     // check that we have all necessary fields
-    const {name, description, pitch_price, category, on_premises, skills_required} = fields;
-    if(!name || !description || !pitch_price || !category || !on_premises || !skills_required) {
+    const {name, description, pitch_price, category} = fields;
+    if(!name || !description || !pitch_price || !category) {
       return res.status(400).json({
         error: "Some fields are missing! Please make sure you have entered all required fields."
       });    
@@ -84,8 +84,8 @@ exports.update = (req, res) => {
       });
     }
     // check that we have all necessary fields
-    const {name, description, pitch_price, category, on_premises, skills_required} = fields;
-    if(!name || !description || !pitch_price || !category || !on_premises || !skills_required) {
+    const {name, description, pitch_price, category} = fields;
+    if(!name || !description || !pitch_price || !category) {
       return res.status(400).json({
         error: "Some fields are missing! Please make sure you have entered all required fields."
       });    

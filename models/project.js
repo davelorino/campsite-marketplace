@@ -17,9 +17,7 @@ const projectSchema = new mongoose.Schema({
       },
       pitch_price: {
         type: Number,
-        trim: true,
-        required: true,
-        maxlength: 3
+        trim: true
       },
       category: {
         type: ObjectId,
@@ -27,7 +25,12 @@ const projectSchema = new mongoose.Schema({
         required: true
       },
       quantity: {
-        type: Number
+        type: Number,
+        default: 0
+      },
+      applications: {
+        type: Number,
+        default: 0
       },
       photo: {
         data: Buffer,
@@ -37,18 +40,16 @@ const projectSchema = new mongoose.Schema({
         type: Boolean
       },
       ideal_completion_date: {
-        type: Date,
+        type: Date
        // required: true
       },
       skills_required: {
         type: Array,
-        default: [],
-        required: true
+        default: []
       },
       most_viable_candidates: {
         type: Array,
-        default: [],
-        required: false
+        default: []
       }
     }, {timestamps: true}
 );
