@@ -1,38 +1,38 @@
-// controllers product.js
+// controllers project.js
 const formidable = require('formidable');
 const _ = require('lodash');
-const Product = require('../models/product');
+const Project = require('../models/project');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 const fs = require('fs');
 
-exports.productById = (req, res, next, id) => {
-  Product.findById(id).exec((err, product) => {
-    if(err || !product) {
+exports.projectById = (req, res, next, id) => {
+  Project.findById(id).exec((err, project) => {
+    if(err || !project) {
       return res.status(400).json({
-        error: "Product not found"
+        error: "Project not found"
       });
     }
-    req.product = product;
+    req.project = project;
     next();
   });
 };
 
 exports.remove = (req, res) => {
-  let product = req.product; 
-  product.remove((err, deletedProduct) => {
+  let project = req.project; 
+  project.remove((err, deletedProject) => {
     if(err) {
       res.status(400).json({
         error: console.log(err)
       });
     }
-    res.json({"message": "Product deleted successfully."
+    res.json({"message": "Project deleted successfully."
     });
   });
 };
 
 exports.read = (req, res) => {
-  req.product.photo = undefined;
-  return res.json(req.product);
+  req.project.photo = undefined;
+  return res.json(req.project);
 };
 
 exports.create = (req, res) => {
@@ -45,23 +45,23 @@ exports.create = (req, res) => {
       });
     }
     // check that we have all necessary fields
-    const {name, description, price, category, on_premises, skills_required} = fields;
-    if(!name || !description || !price || !category || !on_premises || !skills_required) {
+    const {name, description, pitch_price, category, on_premises, skills_required} = fields;
+    if(!name || !description || !pitch_price || !category || !on_premises || !skills_required) {
       return res.status(400).json({
         error: "Some fields are missing! Please make sure you have entered all required fields."
       });    
     }
-    let product = new Product(fields);
+    let project = new Project(fields);
     if(files.photo) {
       if(files.photo.size > 2000000){
         return res.status(400).json({
           error: "Image must be less than 2mb in size"
         });
       }
-      product.photo.data = fs.readFileSync(files.photo.path);
-      product.photo.contentType = files.photo.type;
+      project.photo.data = fs.readFileSync(files.photo.path);
+      project.photo.contentType = files.photo.type;
     }
-    product.save((err, result) => {
+    project.save((err, result) => {
       if(err){
         return res.status(400).json({
           error: console.log(err)
@@ -84,24 +84,24 @@ exports.update = (req, res) => {
       });
     }
     // check that we have all necessary fields
-    const {name, description, price, category, on_premises, skills_required} = fields;
-    if(!name || !description || !price || !category || !on_premises || !skills_required) {
+    const {name, description, pitch_price, category, on_premises, skills_required} = fields;
+    if(!name || !description || !pitch_price || !category || !on_premises || !skills_required) {
       return res.status(400).json({
         error: "Some fields are missing! Please make sure you have entered all required fields."
       });    
     }
-    let product = req.product;
-    product = _.extend(product, fields);
+    let project = req.project;
+    project = _.extend(project, fields);
     if(files.photo) {
       if(files.photo.size > 2000000){
         return res.status(400).json({
           error: "Image must be less than 2mb in size"
         });
       }
-      product.photo.data = fs.readFileSync(files.photo.path);
-      product.photo.contentType = files.photo.type;
+      project.photo.data = fs.readFileSync(files.photo.path);
+      project.photo.contentType = files.photo.type;
     }
-    product.save((err, result) => {
+    project.save((err, result) => {
       if(err){
         return res.status(400).json({
           error: console.log(err)
@@ -115,16 +115,16 @@ exports.update = (req, res) => {
 
 exports.listRelated = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
-  Product.find({_id: {$ne: req.product}, category: req.product.category})
+  Project.find({_id: {$ne: req.project}, category: req.project.category})
   .limit(limit)
   .populate('category', '_id name')
-  .exec((err, products) => {
+  .exec((err, projects) => {
     if(err) {
       return res.status(400).json({
-        error: "Products not found!"
+        error: "Projects not found!"
       });
     }
-    res.json(products);
+    res.json(projects);
   });
 };
 
@@ -141,18 +141,18 @@ exports.list = (req, res) => {
   let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
   
-  Product.find()
+  Project.find()
     .select("-photo")
     .populate('category')
     .sort([[sortBy, order]])
     .limit(limit)
-    .exec((err, products) => {
+    .exec((err, projects) => {
       if(err) {
         return res.status(400).json({
-          error: 'Products not found'
+          error: 'Projects not found'
         });
       }
-      res.send(products);
+      res.send(projects);
     });
 };
 
@@ -192,7 +192,7 @@ exports.listBySearch = (req, res) => {
         }
     }
  
-    Product.find(findArgs)
+    Project.find(findArgs)
         .select("-photo")
         .populate("category")
         .sort([[sortBy, order]])
@@ -201,7 +201,7 @@ exports.listBySearch = (req, res) => {
         .exec((err, data) => {
             if (err) {
                 return res.status(400).json({
-                    error: "Products not found"
+                    error: "Projects not found"
                 });
             }
             res.json({
@@ -212,9 +212,9 @@ exports.listBySearch = (req, res) => {
 };
 
 exports.photo = (req, res, next) => {
-    if(req.product.photo.data) {
-      res.set('Content-Type', req.product.photo.contentType);
-      return res.send(req.product.photo.data);
+    if(req.project.photo.data) {
+      res.set('Content-Type', req.project.photo.contentType);
+      return res.send(req.project.photo.data);
     }
     next();
 };

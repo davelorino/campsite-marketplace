@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema;
 
-const productSchema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema({
       name: {
         type: String,
         trim: true,
@@ -15,7 +15,7 @@ const productSchema = new mongoose.Schema({
         required: true,
         maxlength: 20000
       },
-      price: {
+      pitch_price: {
         type: Number,
         trim: true,
         required: true,
@@ -36,7 +36,7 @@ const productSchema = new mongoose.Schema({
       on_premises: {
         type: Boolean
       },
-      completion_date: {
+      ideal_completion_date: {
         type: Date,
        // required: true
       },
@@ -55,7 +55,7 @@ const productSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model("Product", productSchema);
+module.exports = mongoose.model("Project", projectSchema);
 
 
 
