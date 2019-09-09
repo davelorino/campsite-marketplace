@@ -179,7 +179,7 @@ exports.listBySearch = (req, res) => {
  
     for (let key in req.body.filters) {
         if (req.body.filters[key].length > 0) {
-            if (key === "price") {
+            if (key === "pitch_price") {
                 // gte -  greater than price [0-10]
                 // lte - less than
                 findArgs[key] = {
