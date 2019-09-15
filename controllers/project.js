@@ -45,8 +45,8 @@ exports.create = (req, res) => {
       });
     }
     // check that we have all necessary fields
-    const {name, description, pitch_price, category} = fields;
-    if(!name || !description || !pitch_price || !category) {
+    const {name, description, pitch_price, category, created_by} = fields;
+    if(!name || !description || !pitch_price || !category || !created_by) {
       return res.status(400).json({
         error: "Some fields are missing! Please make sure you have entered all required fields."
       });    
@@ -217,5 +217,26 @@ exports.photo = (req, res, next) => {
       return res.send(req.project.photo.data);
     }
     next();
+};
+
+exports.listSearch = (req, res) => {
+  const query = {};
+  
+  // assign search value to query.name
+  if(req.query.search) {
+    query.name = {$regex: req.query.search, $options: 'i'};
+    // assign category value to query.category
+    if(req.query.category && req.query.category != 'All') {
+      query.category = req.query.category;
+    }
+    Project.find(query, (err, projects) => {
+      if(err) {
+        return res.status(400).json({
+          error: errorHandler(err)
+        });
+      }
+      res.json(projects);
+    }).select('-photo');
+  }
 };
 

@@ -11,6 +11,7 @@ const { create,
         listRelated,
         listCategories,
         listBySearch,
+        listSearch,
         photo } = require('../controllers/project');
 const { userById } = require('../controllers/user');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
@@ -20,8 +21,10 @@ router.post("/project/create/:userId", requireSignin, isAuth, isAdmin, create);
 router.delete('/project/:project/:userId', requireSignin, isAuth, isAdmin, remove);
 router.put('/project/:projectId/:userId', requireSignin, isAuth, isAdmin, update);
 router.get('/projects', list);
+router.get("/projects/search", listSearch);
 router.get("/projects/related/:projectId", listRelated);
 router.post("/projects/by/search", listBySearch);
+
 router.get("/project/photo/:projectId", photo);
 
 router.param("userId", userById);
