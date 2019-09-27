@@ -1,4 +1,4 @@
-// routes product.js
+// routes project.js
 
 const express = require('express');
 const router = express.Router();
@@ -13,7 +13,7 @@ const { create,
         listBySearch,
         listSearch,
         photo } = require('../controllers/project');
-const { userById } = require('../controllers/user');
+const { userById, myProjects } = require('../controllers/user');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 
 router.get('/project/:projectId', read);
@@ -24,6 +24,7 @@ router.get('/projects', list);
 router.get("/projects/search", listSearch);
 router.get("/projects/related/:projectId", listRelated);
 router.post("/projects/by/search", listBySearch);
+router.get("/projects/by/user/:userId", requireSignin, isAuth, myProjects);
 
 router.get("/project/photo/:projectId", photo);
 

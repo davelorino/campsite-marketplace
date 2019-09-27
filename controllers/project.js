@@ -6,7 +6,9 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 const fs = require('fs');
 
 exports.projectById = (req, res, next, id) => {
-  Project.findById(id).exec((err, project) => {
+  Project.findById(id)
+  .populate('category')
+  .exec((err, project) => {
     if(err || !project) {
       return res.status(400).json({
         error: "Project not found"

@@ -1,0 +1,43 @@
+
+const mongoose = require('mongoose');
+
+const applicationSchema = new mongoose.Schema({
+  applicantId: { 
+    type: ObjectId,
+    ref: 'User'
+  },
+  ownerId: { 
+    type: ObjectId,
+    ref: 'User'
+  },
+  projectId: { 
+    type: ObjectId,
+    ref: 'Project'
+  },
+  studentName: {
+    type: String
+    },
+  university: {
+    type: String
+  },
+  studying: {
+    type: String
+  },
+   skills: {
+     type: Array,
+     default: []
+   }, 
+   q1: {
+     type: String
+   },
+   q2: {
+     type: String
+   },
+   q3: {
+     type: String
+   }
+}, {timestamps: true});
+
+
+
+module.exports = mongoose.model("Application", applicationSchema);

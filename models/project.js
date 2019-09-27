@@ -49,7 +49,7 @@ const projectSchema = new mongoose.Schema({
       },
       created_by: {
         type: ObjectId,
-        ref: 'UserId'
+        ref: 'User'
       },
       applicants: {
         type: Array,

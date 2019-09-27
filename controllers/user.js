@@ -1,6 +1,8 @@
 // controllers user
 
 const User = require('../models/user');
+const Project = require('../models/project');
+const {errorHandler} = require('../helpers/dbErrorHandler');
 
 exports.userById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
@@ -39,7 +41,19 @@ exports.update = (req, res) => {
     );
 };
 
-
+exports.myProjects = (req, res) => {
+  Project.find({created_by: req.profile._id})
+  .populate('created_by')
+  .sort('-created')
+  .exec((err, projects) => {
+    if(err) {
+      return res.status(400).json({
+        error: console.log(err)
+      });
+    }
+    res.json(projects);
+  });
+};
 
 
 
