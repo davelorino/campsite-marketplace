@@ -90,6 +90,9 @@ const projectSchema = new mongoose.Schema({
        active_dispute: {
         type: Boolean,
         default: false
+      },
+      business_name: {
+        type: String
       }
        }, {timestamps: true}
 );
