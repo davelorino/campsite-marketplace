@@ -7,8 +7,11 @@ const categorySchema = new mongoose.Schema({
       type: String,
       trim: true,
       required: true,
-      maxlength: 32,
       unique: true
+    },
+    needed_skills: {
+      type: Array,
+      default: []
     }
   }, 
   {timestamps: true}

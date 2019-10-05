@@ -31,6 +31,10 @@ exports.read = (req, res) => {
     return res.json(req.category);
 };
 
+exports.readSkills = (req, res) => {
+    return res.json(req.category.needed_skills);
+};
+
 exports.update = (req, res) => {
     const category = req.category;
     category.name = req.body.name;

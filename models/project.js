@@ -3,6 +3,8 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema;
 
+
+
 const projectSchema = new mongoose.Schema({
       name: {
         type: String,
@@ -18,11 +20,6 @@ const projectSchema = new mongoose.Schema({
       pitch_price: {
         type: Number,
         trim: true
-      },
-      category: {
-        type: ObjectId,
-        ref: 'Category',
-        required: true
       },
       applications: {
         type: Number,
@@ -46,6 +43,10 @@ const projectSchema = new mongoose.Schema({
       most_viable_candidates: {
         type: Array,
         default: []
+      },
+      category: {
+        type: ObjectId,
+        ref: 'Category'
       },
       created_by: {
         type: ObjectId,

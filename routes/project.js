@@ -5,7 +5,8 @@ const router = express.Router();
 const { create, 
         projectById, 
         read, 
-        remove, 
+        remove,
+        apply,
         update, 
         list,
         listRelated,
@@ -18,8 +19,9 @@ const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 
 router.get('/project/:projectId', read);
 router.post("/project/create/:userId", requireSignin, isAuth, isAdmin, create);
-router.delete('/project/:project/:userId', requireSignin, isAuth, isAdmin, remove);
+router.delete('/project/:projectId/:userId', requireSignin, isAuth, isAdmin, remove);
 router.put('/project/:projectId/:userId', requireSignin, isAuth, isAdmin, update);
+router.post('/project/application/:projectId/:userId', requireSignin, isAuth, apply);
 router.get('/projects', list);
 router.get("/projects/search", listSearch);
 router.get("/projects/related/:projectId", listRelated);

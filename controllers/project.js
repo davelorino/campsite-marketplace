@@ -2,6 +2,7 @@
 const formidable = require('formidable');
 const _ = require('lodash');
 const Project = require('../models/project');
+const Application = require('../models/application');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 const fs = require('fs');
 
@@ -37,7 +38,27 @@ exports.read = (req, res) => {
   return res.json(req.project);
 };
 
+{/*
+ exports.signup = (req, res) => {
+   // console.log(req.body);
+  const user = new User(req.body);
+  user.save((err, user) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err)
+      });
+    }
+    user.salt = undefined;
+    user.hashed_password = undefined;
+    res.json({
+      user
+    });
+  });
+};
+*/}
+
 exports.create = (req, res) => {
+  {/*
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
   form.parse(req, (err, fields, files) => {
@@ -47,32 +68,56 @@ exports.create = (req, res) => {
       });
     }
     // check that we have all necessary fields
-    const {name, description, pitch_price, category, created_by} = fields;
-    if(!name || !description || !pitch_price || !category || !created_by) {
+    const {name, description, pitch_price, category, created_by, skills_required} = fields;
+    if(!name || !description || !pitch_price || !category || !created_by || !skills_required) {
       return res.status(400).json({
         error: "Some fields are missing! Please make sure you have entered all required fields."
       });    
-    }
-    let project = new Project(fields);
-    if(files.photo) {
-      if(files.photo.size > 2000000){
-        return res.status(400).json({
-          error: "Image must be less than 2mb in size"
-        });
-      }
-      project.photo.data = fs.readFileSync(files.photo.path);
-      project.photo.contentType = files.photo.type;
-    }
+    } */}
+    const project = new Project(req.body);
     project.save((err, result) => {
       if(err){
         return res.status(400).json({
           error: console.log(err)
         });
       }
-      res.json(result);
+      res.json({project});
     });
-  });
-};
+  };
+
+
+exports.apply = (req, res) => {
+  {/*
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, (err, fields, files) => {
+    if(err) {
+      return res.status(400).json({
+        error: "Image could not be uploaded"
+      });
+    }
+    // check that we have all necessary fields
+    const {name, description, pitch_price, category, created_by, skills_required} = fields;
+    if(!name || !description || !pitch_price || !category || !created_by || !skills_required) {
+      return res.status(400).json({
+        error: "Some fields are missing! Please make sure you have entered all required fields."
+      });    
+    } */}
+    
+    
+    
+    const application = new Application(req.body);
+    application.save((err, result) => {
+      if(err){
+        return res.status(400).json({
+          error: console.log(err)
+        });
+      }
+      res.json({application});
+    });
+  };
+
+
 
 
 
