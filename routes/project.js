@@ -13,8 +13,9 @@ const { create,
         listCategories,
         listBySearch,
         listSearch,
-        photo } = require('../controllers/project');
-const { userById, myProjects } = require('../controllers/user');
+        photo,
+        readApplication} = require('../controllers/project');
+const { userById, myProjects, applicationHistoryProject, applicationById } = require('../controllers/user');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 
 router.get('/project/:projectId', read);
@@ -27,10 +28,13 @@ router.get("/projects/search", listSearch);
 router.get("/projects/related/:projectId", listRelated);
 router.post("/projects/by/search", listBySearch);
 router.get("/projects/by/user/:userId", requireSignin, isAuth, myProjects);
+router.get("/project/applications/by/:userId/:projectId", requireSignin, isAuth, applicationHistoryProject);
+router.get("/project/application/by/:userId/:applicationId", requireSignin, isAuth, readApplication);
 
 router.get("/project/photo/:projectId", photo);
 
 router.param("userId", userById);
 router.param("projectId", projectById);
+router.param("applicationId", applicationById);
 
 module.exports = router;

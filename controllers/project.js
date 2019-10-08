@@ -38,6 +38,10 @@ exports.read = (req, res) => {
   return res.json(req.project);
 };
 
+exports.readApplication = (req, res) => {
+  return res.json(req.params);
+};
+
 {/*
  exports.signup = (req, res) => {
    // console.log(req.body);
@@ -118,7 +122,19 @@ exports.apply = (req, res) => {
   };
 
 
-
+exports.applicationtById = (req, res, next, id) => {
+  Application.findById(id)
+  .populate('_id')
+  .exec((err, project) => {
+    if(err || !project) {
+      return res.status(400).json({
+        error: "Project not found"
+      });
+    }
+    req.project = project;
+    next();
+  });
+};
 
 
 exports.update = (req, res) => {

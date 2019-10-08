@@ -2,6 +2,7 @@
 
 const User = require('../models/user');
 const Project = require('../models/project');
+const Application = require('../models/application');
 const {errorHandler} = require('../helpers/dbErrorHandler');
 
 exports.userById = (req, res, next, id) => {
@@ -41,10 +42,11 @@ exports.update = (req, res) => {
     );
 };
 
+
 exports.myProjects = (req, res) => {
   Project.find({created_by: req.profile._id})
   .populate('created_by')
-  .sort('-created')
+  .sort('-createdAt')
   .exec((err, projects) => {
     if(err) {
       return res.status(400).json({
@@ -56,7 +58,61 @@ exports.myProjects = (req, res) => {
 };
 
 
+exports.applicationHistory = (req, res) => {
+  Application.find({applicantId: req.profile._id})
+  .populate('applicantId')
+  .sort('-createdAt')
+  .exec((err, applications) => {
+    if(err) {
+      return res.status(400).json({
+        error: errorHandler(err)
+      });
+    }
+    res.json(applications);
+  });
+};
 
+exports.applicationHistoryAdmin = (req, res) => {
+  Application.find({ownerId: req.profile._id})
+  .populate('ownerId')
+  .sort('-createdAt')
+  .exec((err, applications) => {
+    if(err) {
+      return res.status(400).json({
+        error: errorHandler(err)
+      });
+    }
+    res.json(applications);
+  });
+};
+
+exports.applicationHistoryProject = (req, res) => {
+  Application.find({projectId: req.project._id})
+  .populate('projectId')
+  .sort('-createdAt')
+  .exec((err, applications) => {
+    if(err) {
+      return res.status(400).json({
+        error: errorHandler(err)
+      });
+    }
+    res.json(applications);
+  });
+};
+
+exports.applicationById = (req, res) => {
+  Application.find({_id: req.params.applicationId})
+  .populate('projectId')
+  .sort('-createdAt')
+  .exec((err, applications) => {
+    if(err) {
+      return res.status(400).json({
+        error: errorHandler(err)
+      });
+    }
+    res.json(applications);
+  });
+};
 
 
 

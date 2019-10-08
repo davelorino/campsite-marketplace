@@ -18,6 +18,15 @@ const applicationSchema = new mongoose.Schema({
   applicantName: {
     type: String
     },
+    projectName: {
+      type: String
+    },
+    projectClient: {
+      type: String
+    },
+  payment: {
+    type: Number
+  }, 
   university: {
     type: String
   },
